@@ -1,0 +1,47 @@
+plugins {
+    id 'groovy'
+}
+
+repositories {
+    mavenCentral()
+    maven { url 'https://repo.jenkins-ci.org/releases/' } // Jenkins-specific dependencies
+}
+
+dependencies {
+    // implementation 'org.codehaus.groovy:groovy-all:4.0.15' // Groovy runtime
+    // testImplementation 'com.lesfurets:jenkins-pipeline-unit:1.13' // Jenkins Pipeline Unit
+    // testImplementation 'org.spockframework:spock-core:2.4-groovy-4.0' // Spock framework for testing
+
+    implementation 'org.codehaus.groovy:groovy-all:2.4.21' // Groovy runtime library
+    testImplementation 'org.spockframework:spock-core:1.1-groovy-2.4' // Spock testing framework for Groovy
+
+    // Jenkins Pipeline Unit Testing Framework
+    // testImplementation 'com.lesfurets:jenkins-pipeline-unit:1.13'
+    testImplementation "com.lesfurets:jenkins-pipeline-unit:1.9"
+
+    // JUnit for testing
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
+}
+
+sourceSets {
+    main {
+        groovy {
+            srcDirs = ['libraries'] // Include JTE libraries
+        }
+    }
+    test {
+        groovy {
+            srcDirs = ['src/test/groovy'] // Test files
+        }
+        resources {
+            srcDirs = ['src/test/resources'] // Test resources
+        }
+    }
+}
+
+tasks.withType(Test).configureEach {
+    useJUnitPlatform()
+    testLogging {
+        events 'PASSED', 'FAILED', 'SKIPPED'
+    }
+}
