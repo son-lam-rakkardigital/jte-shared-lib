@@ -1,5 +1,5 @@
 libraries {
-    jte-shared-lib
+    jte_shared_lib
 }
 
 pipelineConfig {
